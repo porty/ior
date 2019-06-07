@@ -170,6 +170,7 @@ func (d *Daemon) reload() error {
 
 	err = d.cmd.Start()
 	if err != nil {
+		d.cmd = nil
 		return err
 	}
 
