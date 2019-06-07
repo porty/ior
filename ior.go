@@ -56,6 +56,7 @@ func reloadMiddleware(d *Daemon, next http.Handler) http.Handler {
 		err := d.Refresh()
 
 		if err != nil {
+			log.Print("Failed to refresh Go binary: " + err.Error())
 			http.Error(w, err.Error(), 400)
 			return
 		}
