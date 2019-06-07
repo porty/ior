@@ -24,6 +24,7 @@ type Daemon struct {
 	lastHash      []byte
 	once          singleflight.Group
 	race          bool
+	pkg           string
 }
 
 func (d *Daemon) Refresh() error {
@@ -66,6 +67,9 @@ func (d *Daemon) install() error {
 	cmd := exec.Command("go", "install", "-v")
 	if d.race {
 		cmd.Args = append(cmd.Args, "-race")
+	}
+	if d.pkg != "" {
+		cmd.Args = append(cmd.Args, d.pkg)
 	}
 	cmd.Env = append(os.Environ(), "GOBIN="+*bindir, "PORT="+*port)
 	stdout, err := cmd.StdoutPipe()

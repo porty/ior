@@ -18,6 +18,7 @@ var port = flag.String("port", "3000", "The port the app should listen on, will 
 var upstream = flag.String("upstream", "", "Where to connect to access the app")
 var listen = flag.String("listen", ":3030", "Where to listen")
 var race = flag.Bool("race", false, "Build binary with -race instrumentation")
+var pkg = flag.String("pkg", "", "The package to build (defaults to current directory)")
 
 func mustCwd() string {
 	wd, err := os.Getwd()
@@ -44,6 +45,8 @@ func main() {
 
 	d := &Daemon{
 		race: *race,
+		pkg:  *pkg,
+	}
 	if err := d.Refresh(); err != nil {
 		log.Fatal("Failed to build and run initial Go program: " + err.Error())
 	}
