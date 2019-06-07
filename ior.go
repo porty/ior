@@ -44,8 +44,9 @@ func main() {
 
 	d := &Daemon{
 		race: *race,
+	if err := d.Refresh(); err != nil {
+		log.Fatal("Failed to build and run initial Go program: " + err.Error())
 	}
-	d.Refresh()
 
 	log.Print(http.ListenAndServe(*listen, reloadMiddleware(d, NewForwarder(rpURL))))
 }

@@ -47,7 +47,9 @@ func (d *Daemon) Refresh() error {
 			}
 			d.lastHash = hash
 		} else if !d.running() {
-			d.reload()
+			if err := d.reload(); err != nil {
+				return nil, err
+			}
 		}
 
 		return nil, nil
